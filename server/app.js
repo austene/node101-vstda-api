@@ -1,5 +1,9 @@
 const express = require('express');
 const morgan = require('morgan');
+const bodyParser = require('body-parser');
+
+app.use(bodyParser.ulrencoded({ extended: false})); // to support JSON-encoded bodies
+app.use(bodyParser.json()); // to support URL-encoded bodies
 
 const app = express();
 
@@ -26,18 +30,26 @@ var myArray = [
 ];
 console.log(myArray);
 
+//GET homepage
 app.get('/', (req, res) => {
     res.send('ok'); //?
 });
 
+//GET read all todo items from array list
 app.get('/api/TodoItems', (req, res) => {
     res.send(myArray);
 });
 
+//GET read singe todo item from array list
 app.get('/api/TodoItems/:number', (req, res) => {
-//    res.send(myArray[req.params.number]);
+    //    res.send(myArray[req.params.number]);
     var number = req.params.number;
     res.send(myArray[number]);
+});
+
+//POST create a single todo item
+app.post('/api/TodoItems/', (req, res) => {
+    res.send('POST request to page');
 });
 
 module.exports = app;
