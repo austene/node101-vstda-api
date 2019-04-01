@@ -1,0 +1,5 @@
+{
+    "version": 2,
+    "name": "node101-vstda-api",
+    "builds": [{ "src": "**/*.js", "use": "@now/node" }]
+}

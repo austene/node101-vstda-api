@@ -1,7 +1,7 @@
 # node101-vstda-api
 
 ## Purpose of Program
-Uses nodejs and express to create a RESTful API contract.  Handles GET, POST, and DELETE requests.
+Creates a RESTful API contrac to handle GET, POST, and DELETE requests using nodejs and express.
 ## Setup
 
 ### Clone
@@ -29,4 +29,4 @@ $ npm run dev
 
 ## Now
 Deployed to NOW through URL
->https:
+>https://node101-vstda-api-79h8c4818.now.sh
