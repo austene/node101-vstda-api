@@ -7,8 +7,6 @@ const app = express();
 app.use(bodyParser.urlencoded({ extended: true})); // to support URL-encoded bodies
 app.use(bodyParser.json()); // to support JSON-encoded bodies
 
-
-
 // add your code here
 var myArray = [
     {
