@@ -2,10 +2,12 @@ const express = require('express');
 const morgan = require('morgan');
 const bodyParser = require('body-parser');
 
-app.use(bodyParser.ulrencoded({ extended: false})); // to support JSON-encoded bodies
-app.use(bodyParser.json()); // to support URL-encoded bodies
-
 const app = express();
+
+app.use(bodyParser.urlencoded({ extended: true})); // to support URL-encoded bodies
+app.use(bodyParser.json()); // to support JSON-encoded bodies
+
+
 
 // add your code here
 var myArray = [
@@ -28,28 +30,65 @@ var myArray = [
       completed: true
     }
 ];
-console.log(myArray);
 
 //GET homepage
 app.get('/', (req, res) => {
-    res.send('ok'); //?
+    res.send({ status: 'ok' }).status(200);
 });
 
-//GET read all todo items from array list
+//GET send all todo items from array list
 app.get('/api/TodoItems', (req, res) => {
     res.send(myArray);
 });
 
-//GET read singe todo item from array list
+//GET send single todo item from array list
 app.get('/api/TodoItems/:number', (req, res) => {
-    //    res.send(myArray[req.params.number]);
-    var number = req.params.number;
-    res.send(myArray[number]);
+    var itemId = req.params.number;
+    for(var i = 0; i <myArray.length; i++) {
+        if(myArray[i].todoItemId == itemId) {
+            res.send(myArray[i]); 
+            break;
+        };
+    };
 });
 
-//POST create a single todo item
+//POST add a single todo item to array list
 app.post('/api/TodoItems/', (req, res) => {
-    res.send('POST request to page');
+    var foundItem = false;
+    for(var i = 0; i <myArray.length; i++) {
+        if(myArray[i].todoItemId == req.body.todoItemId) {
+            //rewrite item
+            myArray[i] = req.body;
+            foundItem = true;
+            break;
+        };
+    };
+    //push item to array
+    if(foundItem == false) {
+        myArray.push(req.body);
+    };
+    res.status(201).send(req.body);
+});
+
+//DELETE delete a single todo item
+app.delete('/api/TodoItems/:number', (req, res) => {
+    var foundItem = false;
+    var number = req.params.number;
+    for(var i = 0; i <myArray.length; i++) {
+        if(myArray[i].todoItemId == number) {
+            //delete item
+            var deletedItem = myArray[i];
+            myArray.splice(number, 1);
+            console.log('deleted item from myArray');
+            foundItem = true;
+            break;
+        };
+    };
+    if(foundItem) { //if foundItem is true (found and deleted), respond with deletedItem
+        res.status(200).send(deletedItem);
+    } else { //if foundItem is false (item not found in array list), respond with 404 and request body
+        res.status(404).send(req.body);
+    };  
 });
 
 module.exports = app;
