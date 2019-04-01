@@ -1,8 +1,7 @@
 # node101-vstda-api
 
 ## Purpose of Program
-Uses node to create a logger for GET requests and also expose an endpoint on the server via /logs retrieve the latest log data from the web.
-
+Uses nodejs and express to create a RESTful API contract.  Handles GET, POST, and DELETE requests.
 ## Setup
 
 ### Clone
